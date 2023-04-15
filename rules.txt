@@ -1,0 +1,20 @@
+This project is designed for a student who has learned about functions, 
+specifications, and testing but has not yet learned any advanced control 
+structures (if-statements, for-loops, etc.). It is also designed to be used in 
+tandem with the introcs module, which simplifies a lot of advanced Python 
+concepts.
+
+To maintain the spirit of the assignment (and help with the grading process), 
+certain Python commands are restricted in this assignment:
+. No advanced control structures (conditionals, loops, try-except blocks)
+. No Python or 3rd party modules other than introcs and the ones you make
+. No method calls, including string methods
+. Strings should use the functions in introcs instead of methods.
+
+In addition, this project has the following style requirements:
+. Every function must have a complete specification.
+. Every module must start with a docstring with your name and date.
+. There must be two blank lines between any two function definitions.
+. Function bodies should be indented with 4 spaces.
+. No non-docstring line may be longer than 80 characters.
+. Lines inside of a docstring may be longer than 80 characters.
