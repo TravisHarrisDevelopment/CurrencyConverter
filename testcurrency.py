@@ -71,7 +71,6 @@ def test_get_src():
 
     result = currency.get_src('{"success": true, "src": "2 United States ' + 
         'Dollars", "dst": "1.772814 Euros", "error": ""}')
-    print("result: " + result)
     introcs.assert_equals('2 United States Dollars', result)   
 
     result = currency.get_src('{"success":false,"src":"","dst":"","error":' +
@@ -86,10 +85,6 @@ def test_get_src():
         '"Source currency code is invalid."}')
     introcs.assert_equals('', result)
 
-
-def test_get_dst():
-    """Test procedure for get_dst"""
-    print('Testing get_dst')
 
 def test_get_dst():
     """Test procedure for get_dst"""
@@ -114,7 +109,47 @@ def test_get_dst():
 
 def test_has_error():
     """Test procedure for has_error"""
+    """
+    Returns True if the response to a currency query encountered an error.
+
+    Given a JSON string provided by the web service, this function returns True if the
+    query failed and there is an error message. For example, if the json is
+        
+        '{"success":false,"src":"","dst":"","error":"Source currency code is invalid."}'
+
+    then this function returns True (It does NOT return the error message 
+    'Source currency code is invalid'). On the other hand if the json is 
+        
+        '{"success": true, "src": "2 United States Dollars", "dst": "1.772814 Euros", "error": ""}'
+
+    then this function returns False.
+
+    The web server does NOT specify the number of spaces after the colons. The JSON
+        
+        '{"success":true, "src":"2 United States Dollars", "dst":"1.772814 Euros", "error":""}'
+        
+    is also valid (in addition to the examples above).
+
+    Parameter json: a json string to parse
+    Precondition: json a string provided by the web service (ONLY enforce the type)
+    """
     print('Testing has_error')
+
+    result = currency.has_error('{"success": true, "src": "2 United States ' + 
+        'Dollars", "dst": "1.772814 Euros", "error": ""}')
+    introcs.assert_false(result)  
+
+    result = currency.has_error('{"success":false,"src":"","dst":"","error"' +
+        ':"Source currency code is invalid."}')
+    introcs.assert_true(result)   
+
+    result = currency.has_error('{"success":true, "src":"2 United States ' + 
+        'Dollars", "dst":"1.772814 Euros", "error":""}')
+    introcs.assert_false(result)   
+
+    result = currency.has_error('{"success": false,"src": "","dst": "","error"' +
+        ': "Source currency code is invalid."}')
+    introcs.assert_true(result)  
 
 
 def test_service_response():
