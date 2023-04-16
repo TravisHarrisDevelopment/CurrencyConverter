@@ -7,9 +7,9 @@ the various functions in the module currency.
 Author: Travis Harris
 Date:   April 14, 2023
 """
-
 import introcs
 import currency
+
 
 def test_before_space():
     """Test procedure for before_space"""
@@ -147,8 +147,8 @@ def test_has_error():
         'Dollars", "dst":"1.772814 Euros", "error":""}')
     introcs.assert_false(result)   
 
-    result = currency.has_error('{"success": false,"src": "","dst": "","error"' +
-        ': "Source currency code is invalid."}')
+    result = currency.has_error('{"success": false,"src": "","dst": "","' + 
+        'error": "Source currency code is invalid."}')
     introcs.assert_true(result)  
 
 
@@ -185,11 +185,11 @@ def test_service_response():
         'States Dollars", "dst": "2.2160175 Euros", "error": ""}', result)
     
     result = currency.service_response('AAA', 'BBB', 2.5)
-    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":' + 
+    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":'+ 
         ' "The rate for currency AAA is not present."}', result)
     
     result = currency.service_response('USD', 'BBB', -2.5)
-    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":' + 
+    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":'+ 
         ' "The rate for currency BBB is not present."}', result)
     
     result = currency.service_response('EUR','USD', -2.5)

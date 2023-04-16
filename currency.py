@@ -212,6 +212,9 @@ def iscurrency(currency):
     Parameter currency: the currency code to verify
     Precondition: currency is a nonempty string with only letters
     """
+    assert type(currency)== str
+    assert introcs.isalpha(currency)
+    
     url = 'https://ecpyfac.ecornell.com/python/currency/fixed?'
     source = 'src=' + currency
     destination = '&dst=' + currency
@@ -241,10 +244,9 @@ def exchange(src, dst, amt):
     Parameter amt: amount of currency to convert
     Precondition amt is a float or int
     """
-    response = service_response(src, dst, amt)
-    # {"success": true, "src": "-2.5 United States Dollars", "dst": "-2.2160175 Euros", "error": ""}
-    print(before_space(get_dst(response)))
+    assert type(src)==str and iscurrency(src)
+    assert type(dst)==str and iscurrency(dst)
+    assert type(amt)==float or type(amt)==int
 
-    #    srcStart = introcs.find_str(json, 'src":')
-    #substring = first_inside_quotes(json[srcStart+5:])
-    #return substring
+    response = service_response(src, dst, amt)
+    return float(before_space(get_dst(response)))
