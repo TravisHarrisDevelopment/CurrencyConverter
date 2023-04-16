@@ -154,17 +154,66 @@ def test_has_error():
 
 def test_service_response():
     """Test procedure for service_response"""
+    """
+    Returns a JSON string that is a response to a currency query.
+
+    A currency query converts amt money in currency src to the currency dst. The response 
+    should be a string of the form
+
+        '{"success": true, "src": "<src-amount>", dst: "<dst-amount>", error: ""}'
+
+    where the values src-amount and dst-amount contain the value and name for the src 
+    and dst currencies, respectively. If the query is invalid, both src-amount and 
+    dst-amount will be empty, and the error message will not be empty.
+
+    There may or may not be spaces after the colon.  To test this function, you should
+    chose specific examples from your web browser.
+
+    Parameter src: the currency on hand
+    Precondition src is a nonempty string with only letters
+
+    Parameter dst: the currency to convert to
+    Precondition dst is a nonempty string with only letters
+
+    Parameter amt: amount of currency to convert
+    Precondition amt is a float or int
+    """
     print('Testing service_response')
 
+    result = currency.service_response('USD','EUR', 2.5)
+    introcs.assert_equals('{"success": true, "src": "2.5 United ' + 
+        'States Dollars", "dst": "2.2160175 Euros", "error": ""}', result)
+    
+    result = currency.service_response('AAA', 'BBB', 2.5)
+    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":' + 
+        ' "The rate for currency AAA is not present."}', result)
+    
+    result = currency.service_response('USD', 'BBB', -2.5)
+    introcs.assert_equals('{"success": false, "src": "", "dst": "", "error":' + 
+        ' "The rate for currency BBB is not present."}', result)
+    
+    result = currency.service_response('EUR','USD', -2.5)
+    introcs.assert_equals('{"success": true, "src": "-2.5 Euros", "dst": ' + 
+        '"-2.8203748390976155 United States Dollars", "error": ""}', result)
+    
 
 def test_iscurrency():
     """Test procedure for iscurrency"""
     print('Testing iscurrency')
 
+    introcs.assert_true(currency.iscurrency('USD'))
+    introcs.assert_false(currency.iscurrency('AAA'))
+
 
 def test_exchange():
     """Test procedure for exchange"""
     print('Testing exchange')
+
+    result = currency.exchange('USD', 'EUR', 2.5)
+    introcs.assert_floats_equal(2.2160175, result)
+    
+    result = currency.exchange('USD', 'EUR', -2.5)
+    introcs.assert_floats_equal(-2.2160175, result)
 
 
 test_before_space()
